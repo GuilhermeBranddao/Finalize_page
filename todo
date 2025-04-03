@@ -1,0 +1,43 @@
+
+- [] Funcionalidade de compartilhar carteira
+- [] Excluir, Renomear carteira
+- [] Excluir ativo de carteira
+- [] 
+- [] + Informações sobre a carteira (qtd investido, distribuição por tipo, rentabilidade)
+- [] Funcionalidade de compara qual a carteira tem a melhor rentabilidade
+- [] 
+- [] + Tipos de gráficos
+- [] 
+
+# ------Ativos---------
+- [] Funcionalidade de importar historico de transações em excel
+- [] Funcionalidade de exportar historico de transações via excel
+- [] 
+- [] 
+- [] 
+
+# ------Erros---------
+- Dá erro ao tentar adicionar um ativo no dia de hoje (se a carteira não tover ativos e se o historico não tiver a data) 
+    - Solução: Realizar verificação de datas validas
+
+
+# ------Util---------
+
+- [] Exportar e importar carteira
+- [] Exibir st.wirte(f"Ultima atualização etl: {date}") 
+
+
+# TODO: Mais informação sobre pagamento de ativos
+    # Quais os ativos que estão pagando dividendos, (IRDM11 está pagando DY de 1.3)
+# TODO: Ajustar periudos das barras
+# TODO: Gráfigo de dividendos acumulados
+
+# TODO: Adicionar paginação e filtros (periudo e range de data) em st.dataframe
+
+
+
+
+
+
+
+
