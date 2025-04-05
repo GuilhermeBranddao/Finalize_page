@@ -3,6 +3,15 @@ from app.utils.constants import API_URL
 import requests
 # Configurações do Streamlit
 from streamlit_cookies_manager import EncryptedCookieManager
+# from app.cookie_controller.cookie_controller import CookieController
+# controller = CookieController()
+
+def init_session_state():
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
+
+init_session_state()
+
 
 cookies = EncryptedCookieManager(
     password="chave-secreta-para-encriptar2"  # Substitua por algo mais seguro
@@ -27,6 +36,7 @@ def login(email, password):
         if response.status_code == 200:
             cookies["access_token"] = response_json.get("access_token", None)
             cookies.save()
+            st.session_state.logged_in = True
             st.success("✅ Login realizado com sucesso!")
             st.rerun()
     except requests.exceptions.RequestException as e:
@@ -46,20 +56,11 @@ def signup(name, email, password):
 
 # Função para verificar autenticação
 def is_authenticated():
-
-    response = requests.get(f'http://localhost:5000/auth/get-cookie')
-    url = f"{API_URL}/auth/verify"
-
-    # if not "access_token" in cookies:
-        # return False
-    
     access_token = cookies.get("access_token", None)
-    
-    # headers = {"Authorization": f"Bearer {access_token}"}
-    access_cookies={"access_token": access_token}
+    if access_token is None:
+        return False
     try:
-        response = requests.get(url, cookies=access_cookies)
-        # response = requests.post(url, headers=headers)
+        response = requests.get(f"{API_URL}/auth/verify", cookies={"access_token": access_token})
         return response.json().get("valid", False)
     except requests.RequestException:
         return False
@@ -67,26 +68,14 @@ def is_authenticated():
 # Função para realizar o logout
 def logout():
     del cookies["access_token"] # Apaga cookie
+    st.session_state.logged_in = False
     st.success("Você saiu com sucesso!")
     st.rerun()
 
-# Interface principal do Streamlit
-def main():
-    # Cabeçalho principal
+def show_login():
     st.title("🔒 Sistema de Autenticação")
-    st.markdown(
-        """
-        Bem-vindo ao sistema de autenticação. Faça login ou registre-se para continuar.
-        """
-    )
+    st.markdown("Bem-vindo ao sistema de autenticação. Faça login ou registre-se para continuar.")
 
-    #if is_authenticated():
-    #    st.success("✅ Você já está autenticado!")
-    #    if st.button("🔓 Sair"):
-    #        logout()
-    #    return
-
-    # Abas para alternar entre Login e Cadastro
     tab = st.tabs(["🔑 Login", "📝 Cadastro"])
     
     # Aba de Login
@@ -109,3 +98,4 @@ def main():
                 st.success(f"✅ {message}")
             else:
                 st.error(f"❌ {message}")
+

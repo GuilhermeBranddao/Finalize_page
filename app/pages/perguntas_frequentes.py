@@ -1,6 +1,6 @@
 import streamlit as st
 
-def perguntas_frequentes():
+def show():
     st.title("Perguntas Frequentes")
 
     with st.expander("O que é este app?"):
