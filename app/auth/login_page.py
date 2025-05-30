@@ -47,7 +47,7 @@ def signup(name, email, password):
 # Função para verificar autenticação
 def is_authenticated():
 
-    response = requests.get(f'http://localhost:5000/auth/get-cookie')
+    # response = requests.get(f'http://localhost:8000/auth/get-all-cookies')
     url = f"{API_URL}/auth/verify"
 
     # if not "access_token" in cookies:
